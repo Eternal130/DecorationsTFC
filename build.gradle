@@ -1,6 +1,8 @@
 buildscript {
     repositories {
-        mavenCentral()
+        maven {
+            url = "https://repo1.maven.org/maven2/"
+        }
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
@@ -15,98 +17,95 @@ buildscript {
     }
 }
 
-configurations {
-    runtime.exclude group: "[1.7.10]terrafirmacraftplus-deobf-0.80.15"
+apply plugin: 'forge'
+
+version = "1.0.19"
+group= "com.aleksey.decorations" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "[1.7.10]Decorations"
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    runDir = "eclipse"
 }
 
-// define the properties file
-ext.configFile = file "build.prop"
-
-configFile.withReader {
-    // read config.  it shall from now on be referenced as simply config or as project.config
-    def prop = new Properties()
-    prop.load(it)
-    project.ext.config = new ConfigSlurper().parse prop
-}
-
-allprojects {
-    apply plugin: 'java'
-    apply plugin: 'forge'
-    group = config.group_name
-    version = config.mod_version
-    archivesBaseName = config.archive_name
-
-    repositories {
-        maven { // The repo from which to get waila
-            name "Mobius Repo"
-            url "http://mobiusstrip.eu/maven"
-        }
-        maven { // the repo from which to get NEI and stuff
-            name 'CB Repo'
-            url "https://modmaven.k-4u.nl/"
-        }
-        maven { // the repo from which to get NEI and stuff
-            name 'test2'
-            url "https://maven.cil.li/"
-        }
+repositories {
+    maven {
+        // The repo from which to get waila
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
     }
-
-    dependencies {
-        // Forcing version numbers for everything and using NO-NEI WAILA since the "transitive dependency resolution (gradle magic)" is currently borked.
-        compile "codechicken:CodeChickenCore:1.7.10-1.0.4.35:dev"
-        compile "codechicken:CodeChickenLib:1.7.10-1.1.3.127:dev"
-        compile "codechicken:NotEnoughItems:1.7.10-1.0.4.95:dev"
-        compile "mcp.mobius.waila:Waila:1.5.11-RC2-NONEI_1.7.10"
-    }
-    minecraft
-            {
-                version = config.minecraft_version + "-" + config.forge_version
-                runDir = "eclipse"
-            }
-}
-
-sourceSets {
-    main {
-        java {
-            srcDir 'src'
-        }
-        resources {
-            srcDir 'resources'
-        }
+    maven {
+        // the repo from which to get NEI and stuff
+        name 'CB Repo'
+        url "http://chickenbones.net/maven/"
     }
 }
-
-
-//task copyJar(type: Copy) {
-//     from('build/libs') {
-//		include '**/*.jar'
-//	 }
-//     into 'C:/Users/Aleksey/AppData/Roaming/.minecraft_tfc/mods'
-// }
-
-//tasks.build.dependsOn('copyJar')
 
 dependencies {
-    // Copy "[1.7.10]TerraFirmaCraft-0.79.21.741.jar" file
-    // into the ./libs directory
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+      
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    compile "codechicken:CodeChickenCore:1.7.10-1.0.4.35:dev"
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.127:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.4.95:dev"
+    compile "mcp.mobius.waila:Waila:1.5.11-RC2-NONEI_1.7.10"
 }
 
 processResources
-        {
-            // this will ensure that this task is redone when the versions change.
-            inputs.property "version", project.version
-            inputs.property "mcversion", project.minecraft.version
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
 
-            // replace stuff in mcmod.info, nothing else
-            from(sourceSets.main.resources.srcDirs) {
-                include 'mcmod.info'
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
 
-                // replace version and mcversion
-                expand 'version':project.version, 'mcversion':project.minecraft.version
-            }
+tasks.build.dependsOn('sourcesJar', 'deobfJar')
 
-            // copy everything else, thats not the mcmod.info
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
-            }
-        }
+task sourcesJar(type: Jar) {
+    from "LICENSE.txt"
+    from sourceSets.main.allSource
+    classifier = 'src'
+    appendix = project.minecraft.version
+}
+
+task deobfJar(type: Jar) {
+    from "LICENSE.txt"
+    from sourceSets.main.output
+    from (sourceSets.main.allSource.srcDirs) {
+        include '**/*.java'
+    }
+    classifier = 'dev'
+    appendix = project.minecraft.version
+}
+
+jar {
+    from "LICENSE.txt"
+    appendix = project.minecraft.version
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+    archives deobfJar
+}
