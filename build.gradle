@@ -19,7 +19,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0.19"
+version = "1.0.20"
 group= "com.aleksey.decorations" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "[1.7.10]Decorations"
 
