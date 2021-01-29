@@ -6,6 +6,7 @@ obj
 *.suo
 *.user
 eclipse
+.idea
 *.iml
 *.ipr
 *.iws
