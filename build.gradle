@@ -21,7 +21,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0.20"
+version = "1.0.21"
 group= "com.aleksey.decorations"
 archivesBaseName = "[1.7.10]Decorations"
 targetCompatibility = sourceCompatibility = JavaVersion.VERSION_1_8
