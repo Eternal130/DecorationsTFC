@@ -2,9 +2,9 @@ package com.aleksey.decorations;
 
 import net.minecraftforge.common.config.Configuration;
 
-import com.aleksey.decorations.Core.Constants;
-import com.aleksey.decorations.Core.Data.GemInfo;
-import com.aleksey.decorations.Core.Data.LanternInfo;
+import com.aleksey.decorations.core.Constants;
+import com.aleksey.decorations.core.data.GemInfo;
+import com.aleksey.decorations.core.data.LanternInfo;
 
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 

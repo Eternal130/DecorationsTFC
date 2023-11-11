@@ -2,14 +2,14 @@ package com.aleksey.decorations;
 
 import net.minecraftforge.common.MinecraftForge;
 
-import com.aleksey.decorations.Core.BlockList;
-import com.aleksey.decorations.Core.FluidList;
-import com.aleksey.decorations.Core.ItemList;
-import com.aleksey.decorations.Core.Recipes;
-import com.aleksey.decorations.Core.Player.PlayerTracker;
-import com.aleksey.decorations.Handlers.ChunkEventHandler;
-import com.aleksey.decorations.Handlers.CraftingHandler;
-import com.aleksey.decorations.Handlers.Network.InitClientWorldPacket;
+import com.aleksey.decorations.core.BlockList;
+import com.aleksey.decorations.core.FluidList;
+import com.aleksey.decorations.core.ItemList;
+import com.aleksey.decorations.core.Recipes;
+import com.aleksey.decorations.core.player.PlayerTracker;
+import com.aleksey.decorations.handlers.ChunkEventHandler;
+import com.aleksey.decorations.handlers.CraftingHandler;
+import com.aleksey.decorations.handlers.network.InitClientWorldPacket;
 import com.dunk.tfc.TerraFirmaCraft;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -23,7 +23,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.ExistingSubstitutionException;
 
-@Mod(modid="DecorationsTFC", name="Decorations", version="1.0.20", dependencies="required-after:terrafirmacraftplus")
+@Mod(modid="DecorationsTFC", name="Decorations", version="1.0.21", dependencies="required-after:terrafirmacraftplus")
 public class DecorationsMod
 {
     @Instance("DecorationsTFC")
@@ -32,7 +32,7 @@ public class DecorationsMod
     @SidedProxy(clientSide = "com.aleksey.decorations.ClientProxy", serverSide = "com.aleksey.decorations.CommonProxy")
     public static CommonProxy proxy;
     
-    public static boolean isLanternsEnabled;
+    public static final boolean isLanternsEnabled = !Loader.isModLoaded("LanternsTFC");
     public static boolean isGemsEnabled;
     
     @EventHandler
@@ -40,9 +40,7 @@ public class DecorationsMod
     {
         DecorationConfig.loadConfig(event);
         
-        isLanternsEnabled = !Loader.isModLoaded("LanternsTFC");
-        
-        System.out.println("DecorationsTFC Lanterns Enabled = " + String.valueOf(isLanternsEnabled));
+        System.out.println("DecorationsTFC Lanterns Enabled = " + isLanternsEnabled);
         
         proxy.registerTickHandler();
         proxy.registerTileEntities();

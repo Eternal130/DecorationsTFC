@@ -1,10 +1,10 @@
 package com.aleksey.decorations;
 
-import com.aleksey.decorations.Core.BlockList;
-import com.aleksey.decorations.Render.Blocks.RenderLantern;
-import com.aleksey.decorations.Render.Blocks.RenderMudBrickRaw;
-import com.aleksey.decorations.TESR.TESRGem;
-import com.aleksey.decorations.TileEntities.TileEntityGem;
+import com.aleksey.decorations.core.BlockList;
+import com.aleksey.decorations.render.blocks.RenderLantern;
+import com.aleksey.decorations.render.blocks.RenderMudBrickRaw;
+import com.aleksey.decorations.tesr.TESRGem;
+import com.aleksey.decorations.tileentities.TileEntityGem;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
