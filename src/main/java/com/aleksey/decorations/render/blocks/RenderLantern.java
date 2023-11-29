@@ -1,26 +1,23 @@
 package com.aleksey.decorations.render.blocks;
 
-import java.util.ArrayList;
-
+import com.aleksey.decorations.core.data.Bound;
+import com.dunk.tfc.api.TFCBlocks;
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWall;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
 
-import com.aleksey.decorations.core.data.Bound;
-import com.dunk.tfc.api.TFCBlocks;
-
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import java.util.ArrayList;
 
 public class RenderLantern implements ISimpleBlockRenderingHandler
 {
     //http://greyminecraftcoder.blogspot.com/2013/07/rendering-non-standard-blocks.html
     
-    private static final double VoxelSizeScaled = 0.0625;// 1/16
+    private static final double VOXEL_SIZE_SCALED = 0.0625;// 1/16
 
     private static final Bound[] ShellBounds =
         {
@@ -73,41 +70,41 @@ public class RenderLantern implements ISimpleBlockRenderingHandler
     private static final Bound[] WallLowHandleForwardBounds = { HandleBaseConnectorBound, new Bound(7, 9, 14, 8, 14, 15), new Bound(7, 13, 9, 8, 14, 13), new Bound(6, 8, 20, 9, 11, 20), new Bound(7, 9, 16, 8, 10, 19) };
     private static final Bound[] WallLowHandleBackBounds = { HandleBaseConnectorBound, new Bound(7, 9, 0, 8, 14, 1), new Bound(7, 13, 2, 8, 14, 6), new Bound(6, 8, -5, 9, 11, -5), new Bound(7, 9, -4, 8, 10, -1) };
 
-    private Bound[] _shellBoundsScaled;
-    private Bound[] _candleWickBoundsScaled;
-    private Bound[] _glassBoundsScaled;
-    private Bound[] _handleBottomShortBoundsScaled;
-    private Bound[] _handleBottomLongBoundsScaled;
-    private Bound[] _handleTopShortBoundsScaled;
-    private Bound[] _handleTopLongBoundsScaled;
-    private Bound[] _handleLeftBoundsScaled;
-    private Bound[] _handleRightBoundsScaled;
-    private Bound[] _handleForwardBoundsScaled;
-    private Bound[] _handleBackBoundsScaled;
-    private Bound[] _fenceHandleLeftBoundsScaled;
-    private Bound[] _fenceHandleRightBoundsScaled;
-    private Bound[] _fenceHandleForwardBoundsScaled;
-    private Bound[] _fenceHandleBackBoundsScaled;
-    private Bound[] _wallHandleLeftBoundsScaled;
-    private Bound[] _wallHandleRightBoundsScaled;
-    private Bound[] _wallHandleForwardBoundsScaled;
-    private Bound[] _wallHandleBackBoundsScaled;
-    private Bound[] _wallLowHandleLeftBoundsScaled;
-    private Bound[] _wallLowHandleRightBoundsScaled;
-    private Bound[] _wallLowHandleForwardBoundsScaled;
-    private Bound[] _wallLowHandleBackBoundsScaled;
+    private Bound[] shellBoundsScaled;
+    private Bound[] candleWickBoundsScaled;
+    private Bound[] glassBoundsScaled;
+    private Bound[] handleBottomShortBoundsScaled;
+    private Bound[] handleBottomLongBoundsScaled;
+    private Bound[] handleTopShortBoundsScaled;
+    private Bound[] handleTopLongBoundsScaled;
+    private Bound[] handleLeftBoundsScaled;
+    private Bound[] handleRightBoundsScaled;
+    private Bound[] handleForwardBoundsScaled;
+    private Bound[] handleBackBoundsScaled;
+    private Bound[] fenceHandleLeftBoundsScaled;
+    private Bound[] fenceHandleRightBoundsScaled;
+    private Bound[] fenceHandleForwardBoundsScaled;
+    private Bound[] fenceHandleBackBoundsScaled;
+    private Bound[] wallHandleLeftBoundsScaled;
+    private Bound[] wallHandleRightBoundsScaled;
+    private Bound[] wallHandleForwardBoundsScaled;
+    private Bound[] wallHandleBackBoundsScaled;
+    private Bound[] wallLowHandleLeftBoundsScaled;
+    private Bound[] wallLowHandleRightBoundsScaled;
+    private Bound[] wallLowHandleForwardBoundsScaled;
+    private Bound[] wallLowHandleBackBoundsScaled;
     
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer)
     {
         getBoundsScaled();
         
-        renderInvBlock(block, metadata, renderer, _shellBoundsScaled);
+        renderInvBlock(block, metadata, renderer, shellBoundsScaled);
         
         renderer.overrideBlockTexture = Block.getBlockFromName("planks").getIcon(0, 0);
         
-        renderInvBlock(block, metadata, renderer, _handleTopShortBoundsScaled);
-        renderInvBlock(block, metadata, renderer, _handleBottomShortBoundsScaled);
+        renderInvBlock(block, metadata, renderer, handleTopShortBoundsScaled);
+        renderInvBlock(block, metadata, renderer, handleBottomShortBoundsScaled);
         
         renderer.clearOverrideBlockTexture();
     }
@@ -117,12 +114,12 @@ public class RenderLantern implements ISimpleBlockRenderingHandler
     {
         getBoundsScaled();
         
-        renderWorldBlock(x, y, z, block, renderer, _shellBoundsScaled);
-        renderWorldBlock(x, y, z, block, renderer, _candleWickBoundsScaled);
+        renderWorldBlock(x, y, z, block, renderer, shellBoundsScaled);
+        renderWorldBlock(x, y, z, block, renderer, candleWickBoundsScaled);
 
         renderer.overrideBlockTexture = Block.getBlockFromName("glass").getIcon(0, 0);
 
-        renderWorldBlock(x, y, z, block, renderer, _glassBoundsScaled);
+        renderWorldBlock(x, y, z, block, renderer, glassBoundsScaled);
 
         renderer.clearOverrideBlockTexture();
 
@@ -132,13 +129,13 @@ public class RenderLantern implements ISimpleBlockRenderingHandler
       
         if(blockAccess.isSideSolid(x, y - 1, z, ForgeDirection.UP, false) || isFenceOrWall(blockAccess.getBlock(x, y - 1, z)))
         {
-            renderWorldBlock(x, y, z, block, renderer, _handleTopShortBoundsScaled);
-            renderWorldBlock(x, y, z, block, renderer, _handleBottomLongBoundsScaled);
+            renderWorldBlock(x, y, z, block, renderer, handleTopShortBoundsScaled);
+            renderWorldBlock(x, y, z, block, renderer, handleBottomLongBoundsScaled);
         }
         else if(blockAccess.isSideSolid(x, y + 1, z, ForgeDirection.DOWN, false) || isFenceOrWall(blockAccess.getBlock(x, y + 1, z)))
         {
-            renderWorldBlock(x, y, z, block, renderer, _handleTopLongBoundsScaled);
-            renderWorldBlock(x, y, z, block, renderer, _handleBottomShortBoundsScaled);
+            renderWorldBlock(x, y, z, block, renderer, handleTopLongBoundsScaled);
+            renderWorldBlock(x, y, z, block, renderer, handleBottomShortBoundsScaled);
         }
         else
         {
@@ -148,56 +145,56 @@ public class RenderLantern implements ISimpleBlockRenderingHandler
             Block backBlock = blockAccess.getBlock(x, y, z - 1);
             
             if(leftBlock.isBlockNormalCube())
-                renderWorldBlock(x, y, z, block, renderer, _handleLeftBoundsScaled);
+                renderWorldBlock(x, y, z, block, renderer, handleLeftBoundsScaled);
             else if(rightBlock.isBlockNormalCube())
-                renderWorldBlock(x, y, z, block, renderer, _handleRightBoundsScaled);
+                renderWorldBlock(x, y, z, block, renderer, handleRightBoundsScaled);
             else if(forwardBlock.isBlockNormalCube())
-                renderWorldBlock(x, y, z, block, renderer, _handleForwardBoundsScaled);
+                renderWorldBlock(x, y, z, block, renderer, handleForwardBoundsScaled);
             else if(backBlock.isBlockNormalCube())
-                renderWorldBlock(x, y, z, block, renderer, _handleBackBoundsScaled);
+                renderWorldBlock(x, y, z, block, renderer, handleBackBoundsScaled);
             
             if(isFence(leftBlock))
-                renderWorldBlock(x, y, z, block, renderer, _fenceHandleLeftBoundsScaled);
+                renderWorldBlock(x, y, z, block, renderer, fenceHandleLeftBoundsScaled);
             else if(isFence(rightBlock))
-                renderWorldBlock(x, y, z, block, renderer, _fenceHandleRightBoundsScaled);
+                renderWorldBlock(x, y, z, block, renderer, fenceHandleRightBoundsScaled);
             else if(isFence(forwardBlock))
-                renderWorldBlock(x, y, z, block, renderer, _fenceHandleForwardBoundsScaled);
+                renderWorldBlock(x, y, z, block, renderer, fenceHandleForwardBoundsScaled);
             else if(isFence(backBlock))
-                renderWorldBlock(x, y, z, block, renderer, _fenceHandleBackBoundsScaled);
+                renderWorldBlock(x, y, z, block, renderer, fenceHandleBackBoundsScaled);
 
             if(isWall(leftBlock))
             {
                 if(isWallLow(x - 1, y, z, leftBlock, renderer))
-                    renderWorldBlock(x, y, z, block, renderer, _wallLowHandleLeftBoundsScaled);
+                    renderWorldBlock(x, y, z, block, renderer, wallLowHandleLeftBoundsScaled);
                 else
-                    renderWorldBlock(x, y, z, block, renderer, _wallHandleLeftBoundsScaled);
+                    renderWorldBlock(x, y, z, block, renderer, wallHandleLeftBoundsScaled);
             }
             else if(isWall(rightBlock))
             {
                 if(isWallLow(x + 1, y, z, rightBlock, renderer))
-                    renderWorldBlock(x, y, z, block, renderer, _wallLowHandleRightBoundsScaled);
+                    renderWorldBlock(x, y, z, block, renderer, wallLowHandleRightBoundsScaled);
                 else
-                    renderWorldBlock(x, y, z, block, renderer, _wallHandleRightBoundsScaled);
+                    renderWorldBlock(x, y, z, block, renderer, wallHandleRightBoundsScaled);
             }
             else if(isWall(forwardBlock))
             {
                 if(isWallLow(x, y, z + 1, forwardBlock, renderer))
-                    renderWorldBlock(x, y, z, block, renderer, _wallLowHandleForwardBoundsScaled);
+                    renderWorldBlock(x, y, z, block, renderer, wallLowHandleForwardBoundsScaled);
                 else
-                    renderWorldBlock(x, y, z, block, renderer, _wallHandleForwardBoundsScaled);
+                    renderWorldBlock(x, y, z, block, renderer, wallHandleForwardBoundsScaled);
             }
             else if(isWall(backBlock))
             {
                 if(isWallLow(x, y, z - 1, backBlock, renderer))
-                    renderWorldBlock(x, y, z, block, renderer, _wallLowHandleBackBoundsScaled);
+                    renderWorldBlock(x, y, z, block, renderer, wallLowHandleBackBoundsScaled);
                 else
-                    renderWorldBlock(x, y, z, block, renderer, _wallHandleBackBoundsScaled);
+                    renderWorldBlock(x, y, z, block, renderer, wallHandleBackBoundsScaled);
             }
             
             else
-                renderWorldBlock(x, y, z, block, renderer, _handleTopShortBoundsScaled);
+                renderWorldBlock(x, y, z, block, renderer, handleTopShortBoundsScaled);
             
-            renderWorldBlock(x, y, z, block, renderer, _handleBottomShortBoundsScaled);
+            renderWorldBlock(x, y, z, block, renderer, handleBottomShortBoundsScaled);
         }
 
         renderer.clearOverrideBlockTexture();
@@ -234,53 +231,49 @@ public class RenderLantern implements ISimpleBlockRenderingHandler
     
     private void getBoundsScaled()
     {
-        if(_shellBoundsScaled != null)
+        if(shellBoundsScaled != null)
             return;
         
-        _shellBoundsScaled = convertToScaled(ShellBounds);
-        _candleWickBoundsScaled = convertToScaled(CandleWickBounds);
-        _glassBoundsScaled = convertToScaled(GlassBounds);
-        _handleBottomShortBoundsScaled = convertToScaled(HandleBottomShortBounds);
-        _handleBottomLongBoundsScaled = convertToScaled(HandleBottomLongBounds);
-        _handleTopShortBoundsScaled = convertToScaled(HandleTopShortBounds);
-        _handleTopLongBoundsScaled = convertToScaled(HandleTopLongBounds);
-        _handleLeftBoundsScaled = convertToScaled(HandleLeftBounds);
-        _handleRightBoundsScaled = convertToScaled(HandleRightBounds);
-        _handleForwardBoundsScaled = convertToScaled(HandleForwardBounds);
-        _handleBackBoundsScaled = convertToScaled(HandleBackBounds);
-        _fenceHandleLeftBoundsScaled = convertToScaled(FenceHandleLeftBounds);
-        _fenceHandleRightBoundsScaled = convertToScaled(FenceHandleRightBounds);
-        _fenceHandleForwardBoundsScaled = convertToScaled(FenceHandleForwardBounds);
-        _fenceHandleBackBoundsScaled = convertToScaled(FenceHandleBackBounds);
-        _wallHandleLeftBoundsScaled = convertToScaled(WallHandleLeftBounds);
-        _wallHandleRightBoundsScaled = convertToScaled(WallHandleRightBounds);
-        _wallHandleForwardBoundsScaled = convertToScaled(WallHandleForwardBounds);
-        _wallHandleBackBoundsScaled = convertToScaled(WallHandleBackBounds);
-        _wallLowHandleLeftBoundsScaled = convertToScaled(WallLowHandleLeftBounds);
-        _wallLowHandleRightBoundsScaled = convertToScaled(WallLowHandleRightBounds);
-        _wallLowHandleForwardBoundsScaled = convertToScaled(WallLowHandleForwardBounds);
-        _wallLowHandleBackBoundsScaled = convertToScaled(WallLowHandleBackBounds);
+        shellBoundsScaled = convertToScaled(ShellBounds);
+        candleWickBoundsScaled = convertToScaled(CandleWickBounds);
+        glassBoundsScaled = convertToScaled(GlassBounds);
+        handleBottomShortBoundsScaled = convertToScaled(HandleBottomShortBounds);
+        handleBottomLongBoundsScaled = convertToScaled(HandleBottomLongBounds);
+        handleTopShortBoundsScaled = convertToScaled(HandleTopShortBounds);
+        handleTopLongBoundsScaled = convertToScaled(HandleTopLongBounds);
+        handleLeftBoundsScaled = convertToScaled(HandleLeftBounds);
+        handleRightBoundsScaled = convertToScaled(HandleRightBounds);
+        handleForwardBoundsScaled = convertToScaled(HandleForwardBounds);
+        handleBackBoundsScaled = convertToScaled(HandleBackBounds);
+        fenceHandleLeftBoundsScaled = convertToScaled(FenceHandleLeftBounds);
+        fenceHandleRightBoundsScaled = convertToScaled(FenceHandleRightBounds);
+        fenceHandleForwardBoundsScaled = convertToScaled(FenceHandleForwardBounds);
+        fenceHandleBackBoundsScaled = convertToScaled(FenceHandleBackBounds);
+        wallHandleLeftBoundsScaled = convertToScaled(WallHandleLeftBounds);
+        wallHandleRightBoundsScaled = convertToScaled(WallHandleRightBounds);
+        wallHandleForwardBoundsScaled = convertToScaled(WallHandleForwardBounds);
+        wallHandleBackBoundsScaled = convertToScaled(WallHandleBackBounds);
+        wallLowHandleLeftBoundsScaled = convertToScaled(WallLowHandleLeftBounds);
+        wallLowHandleRightBoundsScaled = convertToScaled(WallLowHandleRightBounds);
+        wallLowHandleForwardBoundsScaled = convertToScaled(WallLowHandleForwardBounds);
+        wallLowHandleBackBoundsScaled = convertToScaled(WallLowHandleBackBounds);
     }
     
     private static Bound[] convertToScaled(Bound[] inputList)
     {
-        ArrayList<Bound> resultList = new ArrayList<Bound>();
-        
-        for(int i = 0; i < inputList.length; i++)
-        {
-            Bound[] inputs = splitBound(inputList[i]);
-            
-            for(int k = 0; k < inputs.length; k++)
-            {
-                Bound input = inputs[k];
-                
-                double minX = VoxelSizeScaled * input.MinX;
-                double minY = VoxelSizeScaled * input.MinY;
-                double minZ = VoxelSizeScaled * input.MinZ;
-                double maxX = VoxelSizeScaled * (input.MaxX + 1);
-                double maxY = VoxelSizeScaled * (input.MaxY + 1);
-                double maxZ = VoxelSizeScaled * (input.MaxZ + 1);
-                
+        ArrayList<Bound> resultList = new ArrayList<>();
+
+        for (Bound bound : inputList) {
+            Bound[] inputs = splitBound(bound);
+
+            for (Bound input : inputs) {
+                double minX = VOXEL_SIZE_SCALED * input.MinX;
+                double minY = VOXEL_SIZE_SCALED * input.MinY;
+                double minZ = VOXEL_SIZE_SCALED * input.MinZ;
+                double maxX = VOXEL_SIZE_SCALED * (input.MaxX + 1);
+                double maxY = VOXEL_SIZE_SCALED * (input.MaxY + 1);
+                double maxZ = VOXEL_SIZE_SCALED * (input.MaxZ + 1);
+
                 resultList.add(new Bound(minX, minY, minZ, maxX, maxY, maxZ, input.ShiftX, input.ShiftY, input.ShiftZ));
             }
         }
@@ -351,13 +344,10 @@ public class RenderLantern implements ISimpleBlockRenderingHandler
     private static void renderInvBlock(Block block, int m, RenderBlocks renderer, Bound[] bounds)
     {
         Tessellator var14 = Tessellator.instance;
-        
-        for(int i = 0; i < bounds.length; i++)
-        {
-            Bound bound = bounds[i];
-            
+
+        for (Bound bound : bounds) {
             renderer.setRenderBounds(bound.MinX, bound.MinY, bound.MinZ, bound.MaxX, bound.MaxY, bound.MaxZ);
-          
+
             GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
             var14.startDrawingQuads();
             var14.setNormal(0.0F, -1.0F, 0.0F);
@@ -389,10 +379,7 @@ public class RenderLantern implements ISimpleBlockRenderingHandler
     
     private static void renderWorldBlock(int x, int y, int z, Block block, RenderBlocks renderer, Bound[] bounds)
     {
-        for(int i = 0; i < bounds.length; i++)
-        {
-            Bound bound = bounds[i];
-            
+        for (Bound bound : bounds) {
             renderer.setRenderBounds(bound.MinX, bound.MinY, bound.MinZ, bound.MaxX, bound.MaxY, bound.MaxZ);
             renderer.renderStandardBlock(block, x + bound.ShiftX, y + bound.ShiftY, z + bound.ShiftZ);
         }
