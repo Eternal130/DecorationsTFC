@@ -17,14 +17,28 @@ public class FluidList
 {
     public static final Fluid[] alcoholFluids = new Fluid[]
     {
-        TFCFluids.RUM,
-        TFCFluids.BEER,
-        TFCFluids.RYEWHISKEY,
-        TFCFluids.WHISKEY,
-        TFCFluids.CORNWHISKEY,
         TFCFluids.SAKE,
+        TFCFluids.APPLEJACK,
+        TFCFluids.PAPAYABRANDY,
+        TFCFluids.PLUMBRANDY,
+        TFCFluids.BRANDY,
+        TFCFluids.BERRYBRANDY,
+        TFCFluids.DATEBRANDY,
+        TFCFluids.FIGBRANDY,
+        TFCFluids.FRUITBRANDY,
+        TFCFluids.HONEYBRANDY,
+        TFCFluids.LEMONBRANDY,
+        TFCFluids.ORANGEBRANDY,
+        TFCFluids.PEACHBRANDY,
+        TFCFluids.RUM,
+        TFCFluids.SHOCHU,
+        TFCFluids.TEQUILA,
         TFCFluids.VODKA,
-        TFCFluids.CIDER
+        TFCFluids.WHISKEY,
+        TFCFluids.RYEWHISKEY,
+        TFCFluids.CORNWHISKEY,
+        TFCFluids.BARLEYWHISKEY,
+        TFCFluids.RICEWHISKEY
     };
     
     public static FluidBaseTFC Plaster = new FluidBaseTFC("plaster").setBaseColor(0xD5D1C0);
