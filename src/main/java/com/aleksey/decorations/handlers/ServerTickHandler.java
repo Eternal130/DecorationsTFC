@@ -17,7 +17,7 @@ public class ServerTickHandler
         
         if(event.phase == Phase.START)
         {
-            if(world.provider.dimensionId == 0 && !Recipes.areAnvilRecipesRegistered())
+            if(world.provider.dimensionId == 0 && Recipes.areAnvilRecipesRegistered())
             {
                 Recipes.registerAnvilRecipes(world);
             }

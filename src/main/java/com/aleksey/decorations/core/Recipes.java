@@ -1,7 +1,20 @@
 package com.aleksey.decorations.core;
 
-import java.util.Map;
-
+import com.aleksey.decorations.DecorationsMod;
+import com.aleksey.decorations.core.data.LanternInfo;
+import com.aleksey.decorations.crafting.BarrelPlasterRecipe;
+import com.dunk.tfc.api.Constant.Global;
+import com.dunk.tfc.api.Crafting.AnvilManager;
+import com.dunk.tfc.api.Crafting.AnvilRecipe;
+import com.dunk.tfc.api.Crafting.BarrelManager;
+import com.dunk.tfc.api.Crafting.BarrelRecipe;
+import com.dunk.tfc.api.Crafting.PlanRecipe;
+import com.dunk.tfc.api.Enums.RuleEnum;
+import com.dunk.tfc.api.TFCBlocks;
+import com.dunk.tfc.api.TFCCrafting;
+import com.dunk.tfc.api.TFCFluids;
+import com.dunk.tfc.api.TFCItems;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -10,26 +23,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import com.aleksey.decorations.DecorationsMod;
-import com.aleksey.decorations.core.data.LanternInfo;
-import com.aleksey.decorations.crafting.BarrelPlasterRecipe;
-import com.dunk.tfc.api.TFCBlocks;
-import com.dunk.tfc.api.TFCCrafting;
-import com.dunk.tfc.api.TFCFluids;
-import com.dunk.tfc.api.TFCItems;
-import com.dunk.tfc.api.Constant.Global;
-import com.dunk.tfc.api.Crafting.AnvilManager;
-import com.dunk.tfc.api.Crafting.AnvilRecipe;
-import com.dunk.tfc.api.Crafting.BarrelManager;
-import com.dunk.tfc.api.Crafting.BarrelRecipe;
-import com.dunk.tfc.api.Crafting.PlanRecipe;
-import com.dunk.tfc.api.Enums.RuleEnum;
-
-import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.Map;
 
 public class Recipes
 {
-    private static final String _lanternCorePlan = "lanterncore";
+    private static final String LANTERN_CORE_PLAN = "lanterncore";
     
     public static void registerRecipes()
     {
@@ -38,31 +36,31 @@ public class Recipes
         
         if(DecorationsMod.isGemsEnabled)
         {
-            if (TFCCrafting.diamondConversion == true)
+            if (TFCCrafting.diamondConversion)
             {
-                GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond, 1), new Object[] {new ItemStack(TFCItems.gemDiamond,1,2)});
-                GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond, 2), new Object[] {new ItemStack(TFCItems.gemDiamond,1,3)});
-                GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond, 3), new Object[] {new ItemStack(TFCItems.gemDiamond,1,4)});
-                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemDiamond,1,2), new Object[] {new ItemStack(Items.diamond)});
-                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemDiamond,1,3), new Object[] {new ItemStack(Items.diamond), new ItemStack(Items.diamond)});
-                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemDiamond,1,4), new Object[] {new ItemStack(Items.diamond), new ItemStack(Items.diamond), new ItemStack(Items.diamond)});
+                GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond, 1), new ItemStack(TFCItems.gemDiamond,1,2));
+                GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond, 2), new ItemStack(TFCItems.gemDiamond,1,3));
+                GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond, 3), new ItemStack(TFCItems.gemDiamond,1,4));
+                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemDiamond,1,2), new ItemStack(Items.diamond));
+                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemDiamond,1,3), new ItemStack(Items.diamond), new ItemStack(Items.diamond));
+                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemDiamond,1,4), new ItemStack(Items.diamond), new ItemStack(Items.diamond), new ItemStack(Items.diamond));
             }
             
-            if (TFCCrafting.emeraldConversion == true)
+            if (TFCCrafting.emeraldConversion)
             {
-                GameRegistry.addShapelessRecipe(new ItemStack(Items.emerald, 1), new Object[] {new ItemStack(TFCItems.gemEmerald,1,2)});
-                GameRegistry.addShapelessRecipe(new ItemStack(Items.emerald, 2), new Object[] {new ItemStack(TFCItems.gemEmerald,1,3)});
-                GameRegistry.addShapelessRecipe(new ItemStack(Items.emerald, 3), new Object[] {new ItemStack(TFCItems.gemEmerald,1,4)});
-                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemEmerald,1,2), new Object[] {new ItemStack(Items.emerald)});
-                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemEmerald,1,3), new Object[] {new ItemStack(Items.emerald), new ItemStack(Items.emerald)});
-                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemEmerald,1,4), new Object[] {new ItemStack(Items.emerald), new ItemStack(Items.emerald), new ItemStack(Items.emerald)});
+                GameRegistry.addShapelessRecipe(new ItemStack(Items.emerald, 1), new ItemStack(TFCItems.gemEmerald,1,2));
+                GameRegistry.addShapelessRecipe(new ItemStack(Items.emerald, 2), new ItemStack(TFCItems.gemEmerald,1,3));
+                GameRegistry.addShapelessRecipe(new ItemStack(Items.emerald, 3), new ItemStack(TFCItems.gemEmerald,1,4));
+                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemEmerald,1,2), new ItemStack(Items.emerald));
+                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemEmerald,1,3), new ItemStack(Items.emerald), new ItemStack(Items.emerald));
+                GameRegistry.addShapelessRecipe(new ItemStack(TFCItems.gemEmerald,1,4), new ItemStack(Items.emerald), new ItemStack(Items.emerald), new ItemStack(Items.emerald));
             }
         }
         
         //Gypsum Powder
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemList.Powder, 6, 0), new Object[] { new ItemStack(TFCItems.oreChunk, 1, 17), "itemHammer" }));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemList.Powder, 6, 0), new ItemStack(TFCItems.oreChunk, 1, 17), "itemHammer"));
         
-        GameRegistry.addRecipe(new ItemStack(ItemList.Brush), new Object[] { "w", "r", "t", Character.valueOf('w'), new ItemStack(TFCItems.wool), Character.valueOf('r'), new ItemStack(TFCItems.rope), Character.valueOf('t'), new ItemStack(TFCItems.stick) });
+        GameRegistry.addRecipe(new ItemStack(ItemList.Brush), "w", "r", "t", 'w', new ItemStack(TFCItems.wool), 'r', new ItemStack(TFCItems.rope), 't', new ItemStack(TFCItems.stick));
         
         registerMudBrickRecipes();
         registerBarrelRecipes();
@@ -83,8 +81,8 @@ public class Recipes
             {
                 ItemStack coreFilled = new ItemStack(lanternCore, 1, k + 1);
 
-                GameRegistry.addRecipe(lantern, new Object[] { "tgy", "gsg", "tgy", Character.valueOf('g'), glassPane, Character.valueOf('s'), coreFilled, Character.valueOf('t'), stick, Character.valueOf('y'), yarn });
-                GameRegistry.addRecipe(lantern, new Object[] { "ygt", "gsg", "ygt", Character.valueOf('g'), glassPane, Character.valueOf('s'), coreFilled, Character.valueOf('t'), stick, Character.valueOf('y'), yarn });
+                GameRegistry.addRecipe(lantern, "tgy", "gsg", "tgy", 'g', glassPane, 's', coreFilled, 't', stick, 'y', yarn);
+                GameRegistry.addRecipe(lantern, "ygt", "gsg", "ygt", 'g', glassPane, 's', coreFilled, 't', stick, 'y', yarn);
             }
         }
     }
@@ -93,21 +91,21 @@ public class Recipes
     {
         for(int i = 0; i < 16; i++)
         {
-            GameRegistry.addShapelessRecipe(new ItemStack(BlockList.MudBrickRaws[i], 1, 0), new Object[] { new ItemStack(TFCBlocks.dirt, 1, i), new ItemStack(TFCItems.clayBall, 1, 0), new ItemStack(TFCItems.straw) });
-            GameRegistry.addShapelessRecipe(new ItemStack(BlockList.MudBrickRaws[i], 1, 0), new Object[] { new ItemStack(TFCBlocks.sand, 1, i), new ItemStack(TFCItems.clayBall, 1, 0), new ItemStack(TFCItems.straw) });
+            GameRegistry.addShapelessRecipe(new ItemStack(BlockList.MudBrickRaws[i], 1, 0), new ItemStack(TFCBlocks.dirt, 1, i), new ItemStack(TFCItems.clayBall, 1, 0), new ItemStack(TFCItems.straw));
+            GameRegistry.addShapelessRecipe(new ItemStack(BlockList.MudBrickRaws[i], 1, 0), new ItemStack(TFCBlocks.sand, 1, i), new ItemStack(TFCItems.clayBall, 1, 0), new ItemStack(TFCItems.straw));
         }
             
         for(int i = 0; i < Global.STONE_ALL.length - 16; i++)
         {
-            GameRegistry.addShapelessRecipe(new ItemStack(BlockList.MudBrickRaws[16 + i], 1, 0), new Object[] { new ItemStack(TFCBlocks.dirt2, 1, i), new ItemStack(TFCItems.clayBall, 1, 0), new ItemStack(TFCItems.straw) });
-            GameRegistry.addShapelessRecipe(new ItemStack(BlockList.MudBrickRaws[16 + i], 1, 0), new Object[] { new ItemStack(TFCBlocks.sand2, 1, i), new ItemStack(TFCItems.clayBall, 1, 0), new ItemStack(TFCItems.straw) });
+            GameRegistry.addShapelessRecipe(new ItemStack(BlockList.MudBrickRaws[16 + i], 1, 0), new ItemStack(TFCBlocks.dirt2, 1, i), new ItemStack(TFCItems.clayBall, 1, 0), new ItemStack(TFCItems.straw));
+            GameRegistry.addShapelessRecipe(new ItemStack(BlockList.MudBrickRaws[16 + i], 1, 0), new ItemStack(TFCBlocks.sand2, 1, i), new ItemStack(TFCItems.clayBall, 1, 0), new ItemStack(TFCItems.straw));
         }
 
         for(int i = 0; i < 16; i++)
-            GameRegistry.addRecipe(new ItemStack(BlockList.MudBricks, 4, i), new Object[] { "mm", "mm", Character.valueOf('m'), new ItemStack(BlockList.MudBrickRaws[i], 1, 1) });
+            GameRegistry.addRecipe(new ItemStack(BlockList.MudBricks, 4, i), "mm", "mm", 'm', new ItemStack(BlockList.MudBrickRaws[i], 1, 1));
             
         for(int i = 0; i < Global.STONE_ALL.length - 16; i++)
-            GameRegistry.addRecipe(new ItemStack(BlockList.MudBricks2, 4, i), new Object[] { "mm", "mm", Character.valueOf('m'), new ItemStack(BlockList.MudBrickRaws[16 + i], 1, 1) });
+            GameRegistry.addRecipe(new ItemStack(BlockList.MudBricks2, 4, i), "mm", "mm", 'm', new ItemStack(BlockList.MudBrickRaws[16 + i], 1, 1));
     }
     
     private static void registerBarrelRecipes()
@@ -128,11 +126,11 @@ public class Recipes
     public static boolean areAnvilRecipesRegistered()
     {
         if(!DecorationsMod.isLanternsEnabled)
-            return true;
+            return false;
         
-        Map map = AnvilManager.getInstance().getPlans();
+        Map<String, PlanRecipe> map = AnvilManager.getInstance().getPlans();
         
-        return map.containsKey(_lanternCorePlan);
+        return !map.containsKey(LANTERN_CORE_PLAN);
     }
     
     public static void registerAnvilRecipes(World world)
@@ -144,15 +142,15 @@ public class Recipes
         //We need to set the world ref so that all anvil recipes can generate correctly
         AnvilManager.world = world;
         
-        manager.addPlan(_lanternCorePlan, new PlanRecipe(new RuleEnum[] { RuleEnum.HITLAST, RuleEnum.PUNCHNOTLAST, RuleEnum.HITNOTLAST }));
+        manager.addPlan(LANTERN_CORE_PLAN, new PlanRecipe(new RuleEnum[] { RuleEnum.HITLAST, RuleEnum.PUNCHNOTLAST, RuleEnum.HITNOTLAST }));
         
         for(int i = 0; i < Constants.Lanterns.length; i++)
         {
             LanternInfo info = Constants.Lanterns[i];
-            Item sheetItem = GameRegistry.findItem("terrafirmacraft", info.SheetName);            
+            Item sheetItem = GameRegistry.findItem("terrafirmacraftplus", info.SheetName);
             ItemStack lanternCore = new ItemStack(ItemList.LanternCores[i], 1, 0);
 
-            manager.addRecipe(new AnvilRecipe(new ItemStack(sheetItem), null, _lanternCorePlan, false, info.Anvil, lanternCore).addRecipeSkill(Global.SKILL_GENERAL_SMITHING));
+            manager.addRecipe(new AnvilRecipe(new ItemStack(sheetItem), null, LANTERN_CORE_PLAN, false, info.Anvil, lanternCore).addRecipeSkill(Global.SKILL_GENERAL_SMITHING));
         }
     }
 }

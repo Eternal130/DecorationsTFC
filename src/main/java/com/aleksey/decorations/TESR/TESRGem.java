@@ -1,4 +1,4 @@
-package com.aleksey.decorations.tesr;
+package com.aleksey.decorations.TESR;
 
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.item.EntityItem;

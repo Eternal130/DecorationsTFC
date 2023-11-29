@@ -11,7 +11,7 @@ public class ChunkEventHandler
     @SubscribeEvent
     public void onLoadWorld(WorldEvent.Load event)
     {
-        if(!event.world.isRemote && event.world.provider.dimensionId == 0 && !Recipes.areAnvilRecipesRegistered())
+        if(!event.world.isRemote && event.world.provider.dimensionId == 0 && Recipes.areAnvilRecipesRegistered())
         {
             Recipes.registerAnvilRecipes(event.world);
         }
