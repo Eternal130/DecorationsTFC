@@ -14,6 +14,7 @@ public class Constants
         new LanternInfo("BlackBronze", "item.Black Bronze Sheet", AnvilReq.BRONZE, 14),
         new LanternInfo("Brass", "item.Brass Sheet", AnvilReq.BRONZE, 14),
         new LanternInfo("Lead", "item.Lead Sheet", AnvilReq.COPPER, 14),
+        new LanternInfo("Pewter", "item.Pewter Sheet", AnvilReq.COPPER, 14),
         new LanternInfo("Gold", "item.Gold Sheet", AnvilReq.BRONZE, 14),
         new LanternInfo("RoseGold", "item.Rose Gold Sheet", AnvilReq.BRONZE, 14),
         new LanternInfo("Silver", "item.Silver Sheet", AnvilReq.BRONZE, 14),
