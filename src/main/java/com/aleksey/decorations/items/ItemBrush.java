@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBrush extends ItemTerra implements IFluidContainerItem
 {
-    private IIcon _overlayIcon;
+    private IIcon overlayIcon;
     
     public ItemBrush()
     {
@@ -40,14 +40,14 @@ public class ItemBrush extends ItemTerra implements IFluidContainerItem
     public void registerIcons(IIconRegister registerer)
     {
         this.itemIcon = registerer.registerIcon("decorations:Brush");
-        _overlayIcon = registerer.registerIcon("decorations:BrushOverlay");
+        overlayIcon = registerer.registerIcon("decorations:BrushOverlay");
     }
     
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack is, int pass)
     {
-        return pass == 1 && getFluid(is) != null ? _overlayIcon : this.itemIcon;
+        return pass == 1 && getFluid(is) != null ? overlayIcon : this.itemIcon;
     }
 
     @Override

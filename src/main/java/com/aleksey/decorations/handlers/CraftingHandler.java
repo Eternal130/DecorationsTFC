@@ -22,7 +22,7 @@ public class CraftingHandler
 
         if(iinventory != null)
         {
-            if(item == ItemList.Powder && isDmg == 0)
+            if(item == ItemList.powder && isDmg == 0)
                 com.dunk.tfc.Handlers.CraftingHandler.handleItem(e.player, e.craftMatrix, Recipes.hammers);
         }
     }

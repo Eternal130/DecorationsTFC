@@ -19,11 +19,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemList
 {
-    public static Item[] LanternCores;
-    public static Item Powder;
-    public static Item Plaster;
-    public static Item LiquidDye;
-    public static Item Brush;
+    public static Item[] lanternCores;
+    public static Item powder;
+    public static Item plaster;
+    public static Item liquidDye;
+    public static Item brush;
     
     public static void setup() throws ExistingSubstitutionException
     {
@@ -46,19 +46,19 @@ public class ItemList
         
         if(DecorationsMod.isLanternsEnabled)
         {
-            LanternCores = new Item[Constants.Lanterns.length];
+            lanternCores = new Item[Constants.Lanterns.length];
             
-            for(int i = 0; i < LanternCores.length; i++)
+            for(int i = 0; i < lanternCores.length; i++)
             {
                 LanternInfo info = Constants.Lanterns[i];
-                LanternCores[i] = new ItemLanternCore(info).setUnlocalizedName("LanternCore" + "." + info.LanternName);
+                lanternCores[i] = new ItemLanternCore(info).setUnlocalizedName("LanternCore" + "." + info.LanternName);
             }
         }
         
-        Powder = new ItemGypsumPowder().setUnlocalizedName("Powders.Gypsum");
-        Plaster = new ItemPlaster().setUnlocalizedName("Plaster");
-        LiquidDye = new ItemLiquidDye().setUnlocalizedName("LiquidDye");
-        Brush = new ItemBrush().setUnlocalizedName("Brush");
+        powder = new ItemGypsumPowder().setUnlocalizedName("Powders.Gypsum");
+        plaster = new ItemPlaster().setUnlocalizedName("Plaster");
+        liquidDye = new ItemLiquidDye().setUnlocalizedName("LiquidDye");
+        brush = new ItemBrush().setUnlocalizedName("Brush");
 
         registerItems();
         registerOreDict();
@@ -85,18 +85,15 @@ public class ItemList
         
         if(DecorationsMod.isLanternsEnabled)
         {
-            for(int i = 0; i < LanternCores.length; i++)
-            {
-                Item lanternCore = LanternCores[i];
-                
+            for (Item lanternCore : lanternCores) {
                 GameRegistry.registerItem(lanternCore, lanternCore.getUnlocalizedName());
             }
         }
         
-        GameRegistry.registerItem(Powder, Powder.getUnlocalizedName());
-        GameRegistry.registerItem(Plaster, Plaster.getUnlocalizedName());
-        GameRegistry.registerItem(LiquidDye, LiquidDye.getUnlocalizedName());
-        GameRegistry.registerItem(Brush, Brush.getUnlocalizedName());
+        GameRegistry.registerItem(powder, powder.getUnlocalizedName());
+        GameRegistry.registerItem(plaster, plaster.getUnlocalizedName());
+        GameRegistry.registerItem(liquidDye, liquidDye.getUnlocalizedName());
+        GameRegistry.registerItem(brush, brush.getUnlocalizedName());
     }
     
     private static void registerOreDict()

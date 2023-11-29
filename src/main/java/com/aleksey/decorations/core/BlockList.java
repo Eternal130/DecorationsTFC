@@ -34,20 +34,19 @@ public class BlockList
     {
         if(DecorationsMod.isLanternsEnabled)
         {
-            for(int i = 0; i < Lanterns.length; i++)
-                GameRegistry.registerBlock(Lanterns[i], ItemLantern.class, Lanterns[i].getUnlocalizedName().substring(5));
+            for (Block lantern : Lanterns)
+                GameRegistry.registerBlock(lantern, ItemLantern.class, lantern.getUnlocalizedName().substring(5));
         }
         
         if(DecorationsMod.isGemsEnabled)
         {
-            for(int i = 0; i < Gems.length; i++)
-                GameRegistry.registerBlock(Gems[i], Gems[i].getUnlocalizedName().substring(5));
+            for (Block gem : Gems) GameRegistry.registerBlock(gem, gem.getUnlocalizedName().substring(5));
         }
         
         GameRegistry.registerBlock(Alabaster, ItemAlabaster.class, Alabaster.getUnlocalizedName().substring(5));
-        
-        for(int i = 0; i < MudBrickRaws.length; i++)
-            GameRegistry.registerBlock(MudBrickRaws[i], ItemMudBrickRaw.class, MudBrickRaws[i].getUnlocalizedName().substring(5));
+
+        for (Block mudBrickRaw : MudBrickRaws)
+            GameRegistry.registerBlock(mudBrickRaw, ItemMudBrickRaw.class, mudBrickRaw.getUnlocalizedName().substring(5));
         
         GameRegistry.registerBlock(MudBricks, ItemMudBricks.class, MudBricks.getUnlocalizedName().substring(5));
         GameRegistry.registerBlock(MudBricks2, ItemMudBricks.class, MudBricks2.getUnlocalizedName().substring(5));

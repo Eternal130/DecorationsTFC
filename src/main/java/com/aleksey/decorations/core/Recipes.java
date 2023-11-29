@@ -58,9 +58,9 @@ public class Recipes
         }
         
         //Gypsum Powder
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemList.Powder, 6, 0), new ItemStack(TFCItems.oreChunk, 1, 17), "itemHammer"));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemList.powder, 6, 0), new ItemStack(TFCItems.oreChunk, 1, 17), "itemHammer"));
         
-        GameRegistry.addRecipe(new ItemStack(ItemList.Brush), "w", "r", "t", 'w', new ItemStack(TFCItems.wool), 'r', new ItemStack(TFCItems.rope), 't', new ItemStack(TFCItems.stick));
+        GameRegistry.addRecipe(new ItemStack(ItemList.brush), "w", "r", "t", 'w', new ItemStack(TFCItems.wool), 'r', new ItemStack(TFCItems.rope), 't', new ItemStack(TFCItems.stick));
         
         registerMudBrickRecipes();
         registerBarrelRecipes();
@@ -70,12 +70,15 @@ public class Recipes
     {
         ItemStack stick = new ItemStack(TFCItems.stick, 1);
         ItemStack yarn = new ItemStack(TFCItems.woolYarn, 1);
-        ItemStack glassPane = new ItemStack(Blocks.glass_pane, 1);        
+        ItemStack linenString = new ItemStack(TFCItems.linenString, 1);
+        ItemStack silkString = new ItemStack(TFCItems.silkString, 1);
+        ItemStack cottonYarn = new ItemStack(TFCItems.cottonYarn, 1);
+        ItemStack glassPane = new ItemStack(Blocks.glass_pane, 1);
         
         for(int i = 0; i < Constants.Lanterns.length; i++)
         {
             ItemStack lantern = new ItemStack(BlockList.Lanterns[i], 2);
-            Item lanternCore = ItemList.LanternCores[i];
+            Item lanternCore = ItemList.lanternCores[i];
 
             for(int k = 0; k < FluidList.alcoholFluids.length; k++)
             {
@@ -83,6 +86,12 @@ public class Recipes
 
                 GameRegistry.addRecipe(lantern, "tgy", "gsg", "tgy", 'g', glassPane, 's', coreFilled, 't', stick, 'y', yarn);
                 GameRegistry.addRecipe(lantern, "ygt", "gsg", "ygt", 'g', glassPane, 's', coreFilled, 't', stick, 'y', yarn);
+                GameRegistry.addRecipe(lantern, "tgy", "gsg", "tgy", 'g', glassPane, 's', coreFilled, 't', stick, 'y', linenString);
+                GameRegistry.addRecipe(lantern, "ygt", "gsg", "ygt", 'g', glassPane, 's', coreFilled, 't', stick, 'y', linenString);
+                GameRegistry.addRecipe(lantern, "tgy", "gsg", "tgy", 'g', glassPane, 's', coreFilled, 't', stick, 'y', silkString);
+                GameRegistry.addRecipe(lantern, "ygt", "gsg", "ygt", 'g', glassPane, 's', coreFilled, 't', stick, 'y', silkString);
+                GameRegistry.addRecipe(lantern, "tgy", "gsg", "tgy", 'g', glassPane, 's', coreFilled, 't', stick, 'y', cottonYarn);
+                GameRegistry.addRecipe(lantern, "ygt", "gsg", "ygt", 'g', glassPane, 's', coreFilled, 't', stick, 'y', cottonYarn);
             }
         }
     }
@@ -110,10 +119,10 @@ public class Recipes
     
     private static void registerBarrelRecipes()
     {
-        BarrelManager.getInstance().addRecipe(new BarrelRecipe(new ItemStack(ItemList.Powder, 1, 0), new FluidStack(TFCFluids.FRESHWATER, 500), null, new FluidStack(FluidList.Plaster, 500), 0).setMinTechLevel(0).setSealedRecipe(false).setRemovesLiquid(false).setAllowAnyStack(false));
+        BarrelManager.getInstance().addRecipe(new BarrelRecipe(new ItemStack(ItemList.powder, 1, 0), new FluidStack(TFCFluids.FRESHWATER, 500), null, new FluidStack(FluidList.Plaster, 500), 0).setMinTechLevel(0).setSealedRecipe(false).setRemovesLiquid(false).setAllowAnyStack(false));
         BarrelManager.getInstance().addRecipe(new BarrelRecipe(new ItemStack(TFCBlocks.sand, 1, 32767), new FluidStack(FluidList.Plaster, 100), new ItemStack(TFCItems.mortar, 16), new FluidStack(FluidList.Plaster, 100)).setMinTechLevel(0));
         BarrelManager.getInstance().addRecipe(new BarrelRecipe(new ItemStack(TFCBlocks.sand2, 1, 32767), new FluidStack(FluidList.Plaster, 100), new ItemStack(TFCItems.mortar, 16), new FluidStack(FluidList.Plaster, 100)).setMinTechLevel(0));
-        BarrelManager.getInstance().addRecipe(new BarrelPlasterRecipe(new ItemStack(ItemList.Powder, 1, 0), new FluidStack(FluidList.Plaster, 50), new ItemStack(BlockList.Alabaster, 1), new FluidStack(FluidList.Plaster, 50)).setMinTechLevel(0));
+        BarrelManager.getInstance().addRecipe(new BarrelPlasterRecipe(new ItemStack(ItemList.powder, 1, 0), new FluidStack(FluidList.Plaster, 50), new ItemStack(BlockList.Alabaster, 1), new FluidStack(FluidList.Plaster, 50)).setMinTechLevel(0));
         
         for(int i = 0; i < FluidList.LiquidDyes.length; i++)
         {
@@ -148,7 +157,7 @@ public class Recipes
         {
             LanternInfo info = Constants.Lanterns[i];
             Item sheetItem = GameRegistry.findItem("terrafirmacraftplus", info.SheetName);
-            ItemStack lanternCore = new ItemStack(ItemList.LanternCores[i], 1, 0);
+            ItemStack lanternCore = new ItemStack(ItemList.lanternCores[i], 1, 0);
 
             manager.addRecipe(new AnvilRecipe(new ItemStack(sheetItem), null, LANTERN_CORE_PLAN, false, info.Anvil, lanternCore).addRecipeSkill(Global.SKILL_GENERAL_SMITHING));
         }

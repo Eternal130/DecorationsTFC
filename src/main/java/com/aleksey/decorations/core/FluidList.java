@@ -79,7 +79,7 @@ public class FluidList
         {
             for(int i = 0; i < Constants.Lanterns.length; i++)
             {
-                Item core = ItemList.LanternCores[i]; 
+                Item core = ItemList.lanternCores[i];
                 ItemStack coreEmpty = new ItemStack(core, 1, 0);
 
                 for(int k = 0; k < FluidList.alcoholFluids.length; k++)
@@ -92,9 +92,9 @@ public class FluidList
             }
         }
         
-        FluidContainerRegistry.registerFluidContainer(new FluidStack(Plaster, 1000), new ItemStack(ItemList.Plaster), new ItemStack(TFCItems.woodenBucketEmpty));
+        FluidContainerRegistry.registerFluidContainer(new FluidStack(Plaster, 1000), new ItemStack(ItemList.plaster), new ItemStack(TFCItems.woodenBucketEmpty));
         
         for(int i = 0; i < LiquidDyes.length; i++)
-            FluidContainerRegistry.registerFluidContainer(new FluidStack(LiquidDyes[i], 1000), new ItemStack(ItemList.LiquidDye, 1, i), new ItemStack(TFCItems.woodenBucketEmpty));
+            FluidContainerRegistry.registerFluidContainer(new FluidStack(LiquidDyes[i], 1000), new ItemStack(ItemList.liquidDye, 1, i), new ItemStack(TFCItems.woodenBucketEmpty));
     }
 }
