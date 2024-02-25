@@ -1,7 +1,14 @@
 package com.aleksey.decorations.blocks;
 
-import java.util.List;
-
+import com.aleksey.decorations.core.BlockList;
+import com.aleksey.decorations.core.Constants;
+import com.aleksey.decorations.render.blocks.RenderMudBrickRaw;
+import com.aleksey.decorations.tileentities.TileEntityMudBrickRaw;
+import com.dunk.tfc.Blocks.BlockTerraContainer;
+import com.dunk.tfc.Core.TFCTabs;
+import com.dunk.tfc.api.Constant.Global;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -14,16 +21,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import com.aleksey.decorations.core.BlockList;
-import com.aleksey.decorations.core.Constants;
-import com.aleksey.decorations.render.blocks.RenderMudBrickRaw;
-import com.aleksey.decorations.tileentities.TileEntityMudBrickRaw;
-import com.dunk.tfc.Blocks.BlockTerraContainer;
-import com.dunk.tfc.Core.TFCTabs;
-import com.dunk.tfc.api.Constant.Global;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 
 public class BlockMudBrickRaw extends BlockTerraContainer
 {
@@ -33,7 +31,7 @@ public class BlockMudBrickRaw extends BlockTerraContainer
     @SideOnly(Side.CLIENT)
     private IIcon _topIcon;
     
-    private int _stoneIndex;
+    private final int _stoneIndex;
     
     public int getStoneIndex()
     {

@@ -2,13 +2,8 @@ package com.aleksey.decorations.core;
 
 import com.aleksey.decorations.DecorationsMod;
 import com.aleksey.decorations.core.data.LanternInfo;
-import com.aleksey.decorations.crafting.BarrelPlasterRecipe;
 import com.dunk.tfc.api.Constant.Global;
-import com.dunk.tfc.api.Crafting.AnvilManager;
-import com.dunk.tfc.api.Crafting.AnvilRecipe;
-import com.dunk.tfc.api.Crafting.BarrelManager;
-import com.dunk.tfc.api.Crafting.BarrelRecipe;
-import com.dunk.tfc.api.Crafting.PlanRecipe;
+import com.dunk.tfc.api.Crafting.*;
 import com.dunk.tfc.api.Enums.RuleEnum;
 import com.dunk.tfc.api.TFCBlocks;
 import com.dunk.tfc.api.TFCCrafting;
@@ -21,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import java.util.Map;
 
@@ -57,12 +51,12 @@ public class Recipes
             }
         }
         
-        //Gypsum Powder
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemList.powder, 6, 0), new ItemStack(TFCItems.oreChunk, 1, 17), "itemHammer"));
-        
         GameRegistry.addRecipe(new ItemStack(ItemList.brush), "w", "r", "t", 'w', new ItemStack(TFCItems.wool), 'r', new ItemStack(TFCItems.rope), 't', new ItemStack(TFCItems.stick));
         
-        registerMudBrickRecipes();
+        if (DecorationsMod.isMudBricksEnabled) {
+            registerMudBrickRecipes();
+        }
+
         registerBarrelRecipes();
     }
     
@@ -119,11 +113,6 @@ public class Recipes
     
     private static void registerBarrelRecipes()
     {
-        BarrelManager.getInstance().addRecipe(new BarrelRecipe(new ItemStack(ItemList.powder, 1, 0), new FluidStack(TFCFluids.FRESHWATER, 500), null, new FluidStack(FluidList.Plaster, 500), 0).setMinTechLevel(0).setSealedRecipe(false).setRemovesLiquid(false).setAllowAnyStack(false));
-        BarrelManager.getInstance().addRecipe(new BarrelRecipe(new ItemStack(TFCBlocks.sand, 1, 32767), new FluidStack(FluidList.Plaster, 100), new ItemStack(TFCItems.mortar, 16), new FluidStack(FluidList.Plaster, 100)).setMinTechLevel(0));
-        BarrelManager.getInstance().addRecipe(new BarrelRecipe(new ItemStack(TFCBlocks.sand2, 1, 32767), new FluidStack(FluidList.Plaster, 100), new ItemStack(TFCItems.mortar, 16), new FluidStack(FluidList.Plaster, 100)).setMinTechLevel(0));
-        BarrelManager.getInstance().addRecipe(new BarrelPlasterRecipe(new ItemStack(ItemList.powder, 1, 0), new FluidStack(FluidList.Plaster, 50), new ItemStack(BlockList.Alabaster, 1), new FluidStack(FluidList.Plaster, 50)).setMinTechLevel(0));
-        
         for(int i = 0; i < FluidList.LiquidDyes.length; i++)
         {
             DyeFluid dye = FluidList.LiquidDyes[i];

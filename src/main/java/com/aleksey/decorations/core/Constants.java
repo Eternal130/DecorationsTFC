@@ -32,8 +32,6 @@ public class Constants
         new GemInfo("Exquisite", 15),
     };
     
-    public static String[] Powders = { "Gypsum Powder" };
-    
     public static int[] DyeColors = new int[] { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 0xB4B8B8, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 15790320 };
     
     public static int Brush_MbPerUse = 200; 

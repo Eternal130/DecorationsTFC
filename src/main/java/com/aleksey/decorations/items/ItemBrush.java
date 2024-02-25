@@ -1,5 +1,19 @@
 package com.aleksey.decorations.items;
 
+import com.aleksey.decorations.blocks.BlockAlabaster;
+import com.aleksey.decorations.core.BlockList;
+import com.aleksey.decorations.core.Constants;
+import com.aleksey.decorations.core.FluidList;
+import com.aleksey.decorations.tileentities.TileEntityAlabasterBlock;
+import com.dunk.tfc.Blocks.BlockPlasteredBlock;
+import com.dunk.tfc.Core.FluidBaseTFC;
+import com.dunk.tfc.Core.TFCTabs;
+import com.dunk.tfc.Items.ItemTerra;
+import com.dunk.tfc.TileEntities.TEPlasteredBlock;
+import com.dunk.tfc.api.Enums.EnumSize;
+import com.dunk.tfc.api.Enums.EnumWeight;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,157 +25,143 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
-import com.aleksey.decorations.blocks.BlockAlabaster;
-import com.aleksey.decorations.core.Constants;
-import com.aleksey.decorations.core.FluidList;
-import com.dunk.tfc.Core.FluidBaseTFC;
-import com.dunk.tfc.Core.TFCTabs;
-import com.dunk.tfc.Items.ItemTerra;
-import com.dunk.tfc.api.Enums.EnumSize;
-import com.dunk.tfc.api.Enums.EnumWeight;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-public class ItemBrush extends ItemTerra implements IFluidContainerItem
-{
+public class ItemBrush extends ItemTerra implements IFluidContainerItem {
     private IIcon overlayIcon;
-    
-    public ItemBrush()
-    {
+
+    public ItemBrush() {
         super();
-        
+
         setMaxDamage(Constants.Brush_Capacity);
         setCreativeTab(TFCTabs.TFC_MISC);
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister registerer)
-    {
+    public void registerIcons(IIconRegister registerer) {
         this.itemIcon = registerer.registerIcon("decorations:Brush");
         overlayIcon = registerer.registerIcon("decorations:BrushOverlay");
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(ItemStack is, int pass)
-    {
+    public IIcon getIcon(ItemStack is, int pass) {
         return pass == 1 && getFluid(is) != null ? overlayIcon : this.itemIcon;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack is, int pass)
-    {
+    public int getColorFromItemStack(ItemStack is, int pass) {
         FluidStack fluidStack = getFluid(is);
-        
-        if(pass == 0 || fluidStack == null)
+
+        if (pass == 0 || fluidStack == null)
             return super.getColorFromItemStack(is, pass);
-        
-        FluidBaseTFC fluid = (FluidBaseTFC)fluidStack.getFluid(); 
-        
+
+        FluidBaseTFC fluid = (FluidBaseTFC) fluidStack.getFluid();
+
         return fluid.getColor();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses()
-    {
+    public boolean requiresMultipleRenderPasses() {
         return true;
     }
-    
+
     @Override
-    public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
-    {
+    public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+        if (world.isRemote) {
+            return false;
+        }
         if (!entityplayer.canPlayerEdit(x, y, z, side, itemstack) || itemstack.getItemDamage() == itemstack.getMaxDamage())
             return false;
-        
+
         FluidStack fluidStack = getFluid(itemstack);
-        
-        if(fluidStack == null)
+
+        if (fluidStack == null)
             return false;
 
         Block block = world.getBlock(x, y, z);
-        
-        if(!(block instanceof BlockAlabaster))
-        {
-            if(!entityplayer.isSneaking())
+
+        if (!(block instanceof BlockPlasteredBlock)) {
+            if (!entityplayer.isSneaking())
                 return false;
-            
+
             ItemStack newItemStack = itemstack.copy();
-            
+
             drain(newItemStack, fluidStack.amount, true);
-            
-            entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, newItemStack);        
+
+            entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, newItemStack);
             entityplayer.onUpdate();
 
             return true;
         }
-        
-        if(!(block instanceof BlockAlabaster)
-                || !world.canMineBlock(entityplayer, x, y, z)
-                || !entityplayer.canPlayerEdit(x, y, z, side, itemstack)
-                )
-        {
+
+        if (!world.canMineBlock(entityplayer, x, y, z) || !entityplayer.canPlayerEdit(x, y, z, side, itemstack)
+        ) {
             return false;
         }
-        
+
+        if (!(block instanceof BlockAlabaster)) {
+            TEPlasteredBlock plasterTileEntity = (TEPlasteredBlock)world.getTileEntity(x, y, z);
+            int plasterBlockMeta = world.getBlockMetadata(x, y, z);
+            world.setBlock(x, y, z, BlockList.Alabaster, 0, 2);
+            TileEntityAlabasterBlock te = (TileEntityAlabasterBlock)world.getTileEntity(x, y, z);
+            te.block = plasterTileEntity.block;
+            te.meta = plasterTileEntity.meta;
+            te.blockMeta = plasterBlockMeta;
+            te.markDirty();
+        }
+
         int dyeIndex = getDyeIndex(fluidStack);
-        
+
         world.setBlockMetadataWithNotify(x, y, z, dyeIndex, 2);
-        
+
         ItemStack newItemStack = itemstack.copy();
-        
+
         drain(newItemStack, Constants.Brush_MbPerUse, true);
-        
-        entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, newItemStack);        
+
+        entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, newItemStack);
         entityplayer.onUpdate();
 
         return true;
     }
-    
+
     @Override
-    public String getItemStackDisplayName(ItemStack is)
-    {
+    public String getItemStackDisplayName(ItemStack is) {
         String displayName = super.getItemStackDisplayName(is);
-        
-        if(is.getItemDamage() == is.getMaxDamage())
+
+        if (is.getItemDamage() == is.getMaxDamage())
             return displayName;
-        
+
         FluidStack fluidStack = getFluid(is);
-        
-        if(fluidStack == null)
+
+        if (fluidStack == null)
             return displayName;
-        
+
         String fluidName = fluidStack.getFluid().getLocalizedName(fluidStack);
-        
+
         return displayName + " (" + fluidName + ")";
     }
 
     @Override
-    public EnumSize getSize(ItemStack is)
-    {
+    public EnumSize getSize(ItemStack is) {
         return EnumSize.SMALL;
     }
 
     @Override
-    public EnumWeight getWeight(ItemStack is)
-    {
+    public EnumWeight getWeight(ItemStack is) {
         return EnumWeight.MEDIUM;
     }
-    
+
     @Override
-    public boolean canStack()
-    {
-      return false;
+    public boolean canStack() {
+        return false;
     }
-    
+
     //************ IFluidContainerItem ************//
-    
+
     @Override
-    public FluidStack getFluid(ItemStack container)
-    {
+    public FluidStack getFluid(ItemStack container) {
         if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Fluid"))
             return null;
 
@@ -169,46 +169,42 @@ public class ItemBrush extends ItemTerra implements IFluidContainerItem
     }
 
     @Override
-    public int getCapacity(ItemStack container)
-    {
+    public int getCapacity(ItemStack container) {
         return Constants.Brush_Capacity;
     }
 
     @Override
-    public int fill(ItemStack container, FluidStack resource, boolean doFill)
-    {
-        if(getDyeIndex(resource) < 0)
+    public int fill(ItemStack container, FluidStack resource, boolean doFill) {
+        if (getDyeIndex(resource) < 0)
             return 0;
-        
+
         NBTTagCompound fluidTag = container.stackTagCompound != null && container.stackTagCompound.hasKey("Fluid")
                 ? container.stackTagCompound.getCompoundTag("Fluid")
                 : null;
-        
+
         FluidStack stack = fluidTag != null
                 ? FluidStack.loadFluidStackFromNBT(fluidTag)
                 : null;
-                
+
         int resourceAmount = Constants.Brush_MbPerUse * (resource.amount / Constants.Brush_MbPerUse);
-                
+
         int filled = stack != null
                 ? Math.min(Constants.Brush_Capacity - stack.amount, resourceAmount)
                 : Math.min(Constants.Brush_Capacity, resourceAmount);
-                
+
         if (!doFill || filled == 0)
             return filled;
-        
+
         if (stack != null && !stack.isFluidEqual(resource))
             return 0;
 
         if (container.stackTagCompound == null)
             container.stackTagCompound = new NBTTagCompound();
 
-        if(stack == null)
-        {
+        if (stack == null) {
             stack = new FluidStack(resource.getFluid(), filled);
-            fluidTag = new NBTTagCompound(); 
-        }
-        else
+            fluidTag = new NBTTagCompound();
+        } else
             stack.amount += filled;
 
         container.stackTagCompound.setTag("Fluid", stack.writeToNBT(fluidTag));
@@ -216,44 +212,40 @@ public class ItemBrush extends ItemTerra implements IFluidContainerItem
 
         return filled;
     }
-    
-    private static int getDyeIndex(FluidStack fluidStacks)
-    {
+
+    private static int getDyeIndex(FluidStack fluidStacks) {
         Fluid fluid = fluidStacks.getFluid();
-        
-        for(int i = 0; i < FluidList.LiquidDyes.length; i++)
-        {
-            if(fluid == FluidList.LiquidDyes[i])
+
+        for (int i = 0; i < FluidList.LiquidDyes.length; i++) {
+            if (fluid == FluidList.LiquidDyes[i])
                 return i;
         }
-        
+
         return -1;
     }
 
     @Override
-    public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain)
-    {
+    public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
         NBTTagCompound fluidTag = container.stackTagCompound != null && container.stackTagCompound.hasKey("Fluid")
                 ? container.stackTagCompound.getCompoundTag("Fluid")
                 : null;
-        
+
         FluidStack stack = fluidTag != null
                 ? FluidStack.loadFluidStackFromNBT(fluidTag)
                 : null;
 
         if (stack == null)
             return null;
-        
+
         maxDrain = Constants.Brush_MbPerUse * (maxDrain / Constants.Brush_MbPerUse);
 
         int currentAmount = stack.amount;
         stack.amount = Math.min(stack.amount, maxDrain);
-        
+
         if (!doDrain)
             return stack;
-        
-        if (currentAmount == stack.amount)
-        {
+
+        if (currentAmount == stack.amount) {
             container.stackTagCompound.removeTag("Fluid");
 
             if (container.stackTagCompound.hasNoTags())
@@ -266,7 +258,7 @@ public class ItemBrush extends ItemTerra implements IFluidContainerItem
 
         fluidTag.setInteger("Amount", currentAmount - stack.amount);
         container.stackTagCompound.setTag("Fluid", fluidTag);
-        
+
         container.setItemDamage(container.getMaxDamage() - (currentAmount - stack.amount));
 
         return stack;

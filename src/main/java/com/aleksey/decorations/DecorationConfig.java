@@ -21,6 +21,7 @@ public class DecorationConfig
         loadLanterns(config);
         loadGems(config);
         loadModules(config);
+        loadMudBricks(config);
         
         config.save();
     }
@@ -61,6 +62,11 @@ public class DecorationConfig
     
     private static void loadModules(Configuration config)
     {
-        DecorationsMod.instance.isGemsEnabled = config.get(CategoryName_Modules, "GemsEnabled", true).getBoolean();
+        DecorationsMod.isGemsEnabled = config.get(CategoryName_Modules, "GemsEnabled", true).getBoolean();
+    }
+
+    private static void loadMudBricks(Configuration config)
+    {
+        DecorationsMod.isMudBricksEnabled = config.get(CategoryName_Modules, "MudBricksEnabled", false).getBoolean();
     }
 }

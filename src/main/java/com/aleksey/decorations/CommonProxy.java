@@ -3,7 +3,6 @@ package com.aleksey.decorations;
 import com.aleksey.decorations.handlers.ServerTickHandler;
 import com.aleksey.decorations.tileentities.TileEntityGem;
 import com.aleksey.decorations.tileentities.TileEntityMudBrickRaw;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 

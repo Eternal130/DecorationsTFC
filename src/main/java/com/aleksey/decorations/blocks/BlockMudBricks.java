@@ -10,7 +10,7 @@ import com.dunk.tfc.api.Constant.Global;
 
 public class BlockMudBricks extends BlockSmooth
 {
-    private int _startIndex;
+    private final int _startIndex;
     
     public int getStartIndex()
     {

@@ -1,17 +1,15 @@
 package com.aleksey.decorations.core;
 
+import com.aleksey.decorations.DecorationsMod;
+import com.dunk.tfc.Items.ItemDyeCustom;
+import com.dunk.tfc.api.TFCFluids;
+import com.dunk.tfc.api.TFCItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-
-import com.aleksey.decorations.DecorationsMod;
-import com.dunk.tfc.Core.FluidBaseTFC;
-import com.dunk.tfc.Items.ItemDyeCustom;
-import com.dunk.tfc.api.TFCFluids;
-import com.dunk.tfc.api.TFCItems;
 
 public class FluidList
 {
@@ -40,16 +38,11 @@ public class FluidList
         TFCFluids.BARLEYWHISKEY,
         TFCFluids.RICEWHISKEY
     };
-    
-    public static FluidBaseTFC Plaster = new FluidBaseTFC("plaster").setBaseColor(0xD5D1C0);
-    
+
     public static DyeFluid[] LiquidDyes;
     
     public static void register()
     {
-
-        FluidRegistry.registerFluid(Plaster);
-        
         LiquidDyes = new DyeFluid[ItemDyeCustom.DYE_COLOR_NAMES.length];
         
         for(int i = 0; i < LiquidDyes.length; i++)
@@ -91,8 +84,6 @@ public class FluidList
                 }
             }
         }
-        
-        FluidContainerRegistry.registerFluidContainer(new FluidStack(Plaster, 1000), new ItemStack(ItemList.plaster), new ItemStack(TFCItems.woodenBucketEmpty));
         
         for(int i = 0; i < LiquidDyes.length; i++)
             FluidContainerRegistry.registerFluidContainer(new FluidStack(LiquidDyes[i], 1000), new ItemStack(ItemList.liquidDye, 1, i), new ItemStack(TFCItems.woodenBucketEmpty));

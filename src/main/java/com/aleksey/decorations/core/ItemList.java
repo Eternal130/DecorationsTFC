@@ -1,27 +1,18 @@
 package com.aleksey.decorations.core;
 
+import com.aleksey.decorations.DecorationsMod;
+import com.aleksey.decorations.core.data.LanternInfo;
+import com.aleksey.decorations.items.*;
+import com.dunk.tfc.api.TFCItems;
+import cpw.mods.fml.common.registry.ExistingSubstitutionException;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import com.aleksey.decorations.DecorationsMod;
-import com.aleksey.decorations.core.data.LanternInfo;
-import com.aleksey.decorations.items.ItemBrush;
-import com.aleksey.decorations.items.ItemCustomGem;
-import com.aleksey.decorations.items.ItemGypsumPowder;
-import com.aleksey.decorations.items.ItemLanternCore;
-import com.aleksey.decorations.items.ItemLiquidDye;
-import com.aleksey.decorations.items.ItemPlaster;
-import com.dunk.tfc.api.TFCItems;
-
-import cpw.mods.fml.common.registry.ExistingSubstitutionException;
-import cpw.mods.fml.common.registry.GameRegistry;
-
 public class ItemList
 {
     public static Item[] lanternCores;
-    public static Item powder;
-    public static Item plaster;
     public static Item liquidDye;
     public static Item brush;
     
@@ -54,9 +45,7 @@ public class ItemList
                 lanternCores[i] = new ItemLanternCore(info).setUnlocalizedName("LanternCore" + "." + info.LanternName);
             }
         }
-        
-        powder = new ItemGypsumPowder().setUnlocalizedName("Powders.Gypsum");
-        plaster = new ItemPlaster().setUnlocalizedName("Plaster");
+
         liquidDye = new ItemLiquidDye().setUnlocalizedName("LiquidDye");
         brush = new ItemBrush().setUnlocalizedName("Brush");
 
@@ -89,9 +78,7 @@ public class ItemList
                 GameRegistry.registerItem(lanternCore, lanternCore.getUnlocalizedName());
             }
         }
-        
-        GameRegistry.registerItem(powder, powder.getUnlocalizedName());
-        GameRegistry.registerItem(plaster, plaster.getUnlocalizedName());
+
         GameRegistry.registerItem(liquidDye, liquidDye.getUnlocalizedName());
         GameRegistry.registerItem(brush, brush.getUnlocalizedName());
     }

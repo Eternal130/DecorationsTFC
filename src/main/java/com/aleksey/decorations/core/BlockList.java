@@ -1,13 +1,7 @@
 package com.aleksey.decorations.core;
 
-import net.minecraft.block.Block;
-
 import com.aleksey.decorations.DecorationsMod;
-import com.aleksey.decorations.blocks.BlockAlabaster;
-import com.aleksey.decorations.blocks.BlockCustomGem;
-import com.aleksey.decorations.blocks.BlockCustomLantern;
-import com.aleksey.decorations.blocks.BlockMudBrickRaw;
-import com.aleksey.decorations.blocks.BlockMudBricks;
+import com.aleksey.decorations.blocks.*;
 import com.aleksey.decorations.core.data.GemInfo;
 import com.aleksey.decorations.core.data.LanternInfo;
 import com.aleksey.decorations.items.itemblocks.ItemAlabaster;
@@ -15,8 +9,8 @@ import com.aleksey.decorations.items.itemblocks.ItemLantern;
 import com.aleksey.decorations.items.itemblocks.ItemMudBrickRaw;
 import com.aleksey.decorations.items.itemblocks.ItemMudBricks;
 import com.dunk.tfc.api.Constant.Global;
-
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
 
 public class BlockList
 {
@@ -45,11 +39,14 @@ public class BlockList
         
         GameRegistry.registerBlock(Alabaster, ItemAlabaster.class, Alabaster.getUnlocalizedName().substring(5));
 
-        for (Block mudBrickRaw : MudBrickRaws)
-            GameRegistry.registerBlock(mudBrickRaw, ItemMudBrickRaw.class, mudBrickRaw.getUnlocalizedName().substring(5));
-        
-        GameRegistry.registerBlock(MudBricks, ItemMudBricks.class, MudBricks.getUnlocalizedName().substring(5));
-        GameRegistry.registerBlock(MudBricks2, ItemMudBricks.class, MudBricks2.getUnlocalizedName().substring(5));
+        if (DecorationsMod.isMudBricksEnabled) {
+            for (Block mudBrickRaw : MudBrickRaws)
+                GameRegistry.registerBlock(mudBrickRaw, ItemMudBrickRaw.class, mudBrickRaw.getUnlocalizedName().substring(5));
+
+            GameRegistry.registerBlock(MudBricks, ItemMudBricks.class, MudBricks.getUnlocalizedName().substring(5));
+            GameRegistry.registerBlock(MudBricks2, ItemMudBricks.class, MudBricks2.getUnlocalizedName().substring(5));
+        }
+
     }
     
     public static void loadBlocks()
@@ -82,16 +79,18 @@ public class BlockList
             }
         }
         
-        //Gypsum
+        //Alabaster
         Alabaster = new BlockAlabaster().setBlockName("Alabaster");
-        
-        //Mud Bricks
-        MudBrickRaws = new Block[Global.STONE_ALL.length];
-        
-        for(int i = 0; i < MudBrickRaws.length; i++)
-            MudBrickRaws[i] = new BlockMudBrickRaw(i).setBlockName("MudBrickRaw." + Global.STONE_ALL[i].replaceAll(" ", ""));
-        
-        MudBricks = new BlockMudBricks(0).setBlockName("MudBricks");
-        MudBricks2 = new BlockMudBricks(16).setBlockName("MudBricks2");
+
+        if (DecorationsMod.isMudBricksEnabled) {
+            //Mud Bricks
+            MudBrickRaws = new Block[Global.STONE_ALL.length];
+
+            for (int i = 0; i < MudBrickRaws.length; i++)
+                MudBrickRaws[i] = new BlockMudBrickRaw(i).setBlockName("MudBrickRaw." + Global.STONE_ALL[i].replaceAll(" ", ""));
+
+            MudBricks = new BlockMudBricks(0).setBlockName("MudBricks");
+            MudBricks2 = new BlockMudBricks(16).setBlockName("MudBricks2");
+        }
     }
 }

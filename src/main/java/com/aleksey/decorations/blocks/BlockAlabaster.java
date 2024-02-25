@@ -1,21 +1,27 @@
 package com.aleksey.decorations.blocks;
 
+import com.aleksey.decorations.core.FluidList;
+import com.aleksey.decorations.tileentities.TileEntityAlabasterBlock;
+import com.dunk.tfc.Blocks.BlockPlasteredBlock;
+import com.dunk.tfc.Core.TFCTabs;
+import com.dunk.tfc.Core.TFC_Core;
+import com.dunk.tfc.Items.ItemDyeCustom;
+import com.dunk.tfc.TileEntities.TEPlasteredBlock;
+import com.dunk.tfc.api.TFCBlocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
-import com.aleksey.decorations.core.FluidList;
-import com.dunk.tfc.Blocks.Terrain.BlockSmooth;
-import com.dunk.tfc.Core.TFCTabs;
-import com.dunk.tfc.Items.ItemDyeCustom;
-
-public class BlockAlabaster extends BlockSmooth
+public class BlockAlabaster extends BlockPlasteredBlock
 {
+    protected String[] names;
+    protected IIcon[] icons;
     public BlockAlabaster()
     {
         super(Material.rock);
-        this.setHardness(12f);
-        this.setResistance(10.0f);
         this.setCreativeTab(TFCTabs.TFC_BUILDING);
         
         this.names = new String[16];
@@ -40,5 +46,26 @@ public class BlockAlabaster extends BlockSmooth
     {
         for(int i = 0; i < this.icons.length; i++)
             this.icons[i] = iconRegisterer.registerIcon("decorations:alabasters/" + this.names[i]);
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World var1, int var2) {
+        return new TileEntityAlabasterBlock();
+    }
+
+    @Override
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean canHarvest) {
+        if (!canHarvest && !player.capabilities.isCreativeMode) {
+            return false;
+        } else {
+            TileEntityAlabasterBlock tileEntityAlabasterBlock = (TileEntityAlabasterBlock)world.getTileEntity(x, y, z);
+            world.setBlock(x, y, z, TFCBlocks.plasteredBlock, tileEntityAlabasterBlock.blockMeta, 2);
+            TEPlasteredBlock te = (TEPlasteredBlock)world.getTileEntity(x, y, z);
+            te.block = tileEntityAlabasterBlock.block;
+            te.meta = tileEntityAlabasterBlock.meta;
+            te.markDirty();
+            TFC_Core.addPlayerExhaustion(player, 0.001F);
+            return false;
+        }
     }
 }

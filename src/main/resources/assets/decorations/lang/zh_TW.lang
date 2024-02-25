@@ -114,12 +114,9 @@ item.LanternCore.Platinum.Filled.name=填滿的鉑金燈籠核心
 item.LanternCore.WroughtIron.name=鍛鐵燈籠核心
 item.LanternCore.WroughtIron.Filled.name=填滿的鍛鐵燈籠核心
 
-item.Powders.Gypsum.name=石膏粉
-item.Plaster.name=木桶(石膏灰泥)
 item.LiquidDye.name=木桶
 item.Brush.name=刷子
 
-fluid.plaster=石膏
 fluid.liquid_dye.black=黑色染料
 fluid.liquid_dye.red=紅色染料
 fluid.liquid_dye.green=綠色染料
@@ -132,7 +129,7 @@ fluid.liquid_dye.gray=灰色染料
 fluid.liquid_dye.pink=粉紅染料
 fluid.liquid_dye.lime=石灰染料
 fluid.liquid_dye.yellow=黃色染料
-fluid.liquid_dye.lightBlue=淡藍色染料
+fluid.liquid_dye.light_blue=淡藍色染料
 fluid.liquid_dye.magenta=品紅染料
 fluid.liquid_dye.orange=橙色染料
 fluid.liquid_dye.white=白色染料

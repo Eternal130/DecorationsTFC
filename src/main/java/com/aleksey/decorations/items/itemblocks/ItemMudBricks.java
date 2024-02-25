@@ -1,12 +1,5 @@
 package com.aleksey.decorations.items.itemblocks;
 
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-
 import com.aleksey.decorations.blocks.BlockMudBricks;
 import com.dunk.tfc.Items.ItemTerra;
 import com.dunk.tfc.api.Constant.Global;
@@ -14,10 +7,16 @@ import com.dunk.tfc.api.Enums.EnumItemReach;
 import com.dunk.tfc.api.Enums.EnumSize;
 import com.dunk.tfc.api.Enums.EnumWeight;
 import com.dunk.tfc.api.Interfaces.ISize;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 public class ItemMudBricks extends ItemBlock implements ISize
 {
-    private int _startIndex;
+    private final int _startIndex;
     
     public ItemMudBricks(Block block)
     {
