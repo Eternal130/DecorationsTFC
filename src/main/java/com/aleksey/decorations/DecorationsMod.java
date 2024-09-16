@@ -20,7 +20,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.ExistingSubstitutionException;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid="DecorationsTFC", name="Decorations", version="1.0.21", dependencies="required-after:terrafirmacraftplus")
+@Mod(modid="DecorationsTFC", name="Decorations", version="1.0.22", dependencies="required-after:terrafirmacraftplus")
 public class DecorationsMod
 {
     @Instance("DecorationsTFC")
@@ -62,6 +62,7 @@ public class DecorationsMod
         
         // Register the Chunk Load/Save Handler
         MinecraftForge.EVENT_BUS.register(new ChunkEventHandler());
+        proxy.registerGemPlaceEventHandler();
         
         proxy.registerRenderInformation();
         

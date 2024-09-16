@@ -1,10 +1,12 @@
 package com.aleksey.decorations;
 
+import com.aleksey.decorations.handlers.GemPlaceEventHandler;
 import com.aleksey.decorations.handlers.ServerTickHandler;
 import com.aleksey.decorations.tileentities.TileEntityGem;
 import com.aleksey.decorations.tileentities.TileEntityMudBrickRaw;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy
 {
@@ -36,5 +38,8 @@ public class CommonProxy
     public boolean isRemote()
     {
         return false;
+    }
+    public void registerGemPlaceEventHandler() {
+        MinecraftForge.EVENT_BUS.register(new GemPlaceEventHandler());
     }
 }
